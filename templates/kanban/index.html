@@ -1,0 +1,14 @@
+{% extends "kanban/base.html" %}
+
+{% block content %}
+<ul>
+    {% if kanbans %}
+        {% for kanban in kanbans %}
+             <li><a href="{% url 'kanban:kanban_detail' kanban.id %}">{{ kanban.name }}</a> <a href="{% url 'kanban:kanban_delete' kanban.id %}"> удалить</a></li>
+        {% endfor %}
+    {% else %}
+        <li>Канбанов пока нет</li>
+    {% endif %}
+</ul>
+<a href="{% url 'kanban:kanban_create' %}">добавить канбан</a>
+{% endblock %}
