@@ -7,6 +7,12 @@
     <title>Канбан</title>
 </head>
 <body>
+    {% if user.is_authenticated %}
+        {{ user.username }} <a href="{% url 'kanban:logout' %}">выйти</a>
+    {% else %}
+        <a href="{% url 'kanban:login' %}">войти</a>
+    {% endif %}
+
     {% block content %}
     {% endblock %}
 </body>

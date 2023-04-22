@@ -1,5 +1,11 @@
 {% extends "kanban/base.html" %}
 
 {% block content %}
-    <h1>Детали</h1>
+    <p>название: <b>{{ object.name }}</b></p>
+    <p>автор: <b>{{ object.owner }}</b></p>
+    <p>задачи:
+        <!-- TODO: показать все задачи этой доски -->
+    </p>
+    <p><a href="{% url 'kanban:task_create' %}">добавить задачу</a></p>
+    <p><a href="{% url 'kanban:kanban_delete' kanban.id %}">удалить эту доску</a></p>
 {% endblock %}

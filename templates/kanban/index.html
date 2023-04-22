@@ -4,11 +4,14 @@
 <ul>
     {% if kanbans %}
         {% for kanban in kanbans %}
-             <li><a href="{% url 'kanban:kanban_detail' kanban.id %}">{{ kanban.name }}</a> <a href="{% url 'kanban:kanban_delete' kanban.id %}"> удалить</a></li>
+             <li><a href="{% url 'kanban:kanban_detail' kanban.id %}">{{ kanban.name }}</a></li>
         {% endfor %}
     {% else %}
         <li>Канбанов пока нет</li>
     {% endif %}
 </ul>
-<a href="{% url 'kanban:kanban_create' %}">добавить канбан</a>
+
+{% if user.is_authenticated %}
+    <a href="{% url 'kanban:kanban_create' %}">добавить канбан</a>
+{% endif %}
 {% endblock %}
