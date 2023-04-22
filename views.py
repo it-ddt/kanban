@@ -36,8 +36,34 @@ class KanbanDetailView(generic.DetailView):
     template_name = "kanban/kanban_detail.html"
     context_object_name = "kanban"
 
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        # Отфильтровать задачи с помощью querry_set
+        context["new_tasks"] = "новые задачи"
+        context["active_tasks"] = "новые задачи"
+        context["completed_tasks"] = "новые задачи"
+        return context
+
 class TaskCreateView(generic.CreateView):
     model = Task
     template_name = "kanban/task_create.html"
     success_url = reverse_lazy("kanban:index")  # TODO: отпраить пользователя к тому канбану, для которого создана эта задача
     fields = ["name", "description", "kanban"]
+
+    def get_success_url(self):
+        return reverse_lazy(
+            "kanban:kanban_detail",
+            kwargs = {'pk': self.object.kanban.pk}
+        )
+
+class TaskDeleteView(generic.DeleteView):
+    model = Task
+    template_name = "kanban/task_delete.html"
+    
+    def get_success_url(self):
+        return reverse_lazy(
+            "kanban:kanban_detail",
+            kwargs = {'pk': self.object.kanban.pk}
+        )
+
+

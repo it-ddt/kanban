@@ -1,10 +1,19 @@
 {% extends "kanban/base.html" %}
 
 {% block content %}
-    <p>название: <b>{{ object.name }}</b></p>
-    <p>автор: <b>{{ object.owner }}</b></p>
+    <p>название: <b>{{ kanban.name }}</b></p>
+    <p>автор: <b>{{ kanban.owner }}</b></p>
     <p>задачи:
-        <!-- TODO: показать все задачи этой доски -->
+        <ol>
+        {% for task in kanban.tasks.all %}
+            <li>
+                {{ task.name }}: {{ task.description }}
+                <a href="{% url 'kanban:task_delete' task.id %}">удалить задачу</a>
+            </li>
+            {% empty %}
+            <li>На этой доске пока нет задач</li>
+        {% endfor %}
+        </ol>
     </p>
     <p><a href="{% url 'kanban:task_create' %}">добавить задачу</a></p>
     <p><a href="{% url 'kanban:kanban_delete' kanban.id %}">удалить эту доску</a></p>
