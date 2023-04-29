@@ -3,18 +3,59 @@
 {% block content %}
     <p>название: <b>{{ kanban.name }}</b></p>
     <p>автор: <b>{{ kanban.owner }}</b></p>
-    <p>задачи:
+    <p>
+        <h3>новые задачи:</h3>
         <ol>
-        {% for task in kanban.tasks.all %}
+        {% for task in tasks_new %}
             <li>
                 {{ task.name }}: {{ task.description }}
+                <a href=""></a> <!-- ссылка на назначение этой задачи -->
                 <a href="{% url 'kanban:task_delete' task.id %}">удалить задачу</a>
             </li>
-            {% empty %}
+        {% empty %}
             <li>На этой доске пока нет задач</li>
         {% endfor %}
         </ol>
     </p>
-    <p><a href="{% url 'kanban:task_create' %}">добавить задачу</a></p>
+    <p>
+        <h3>активные задачи:</h3>
+        <ol>
+        {% for task in tasks_active %}
+            <li>
+                {{ task.name }}: {{ task.description }}
+                <a href="{% url 'kanban:task_delete' task.id %}">удалить задачу</a>
+            </li>
+        {% empty %}
+            <li>На этой доске пока нет задач</li>
+        {% endfor %}
+        </ol>
+    </p>
+    <p>
+        <h3>готвые задачи:</h3>
+        <ol>
+        {% for task in tasks_completed %}
+            <li>
+                {{ task.name }}: {{ task.description }}
+                <a href="{% url 'kanban:task_delete' task.id %}">удалить задачу</a>
+            </li>
+        {% empty %}
+            <li>На этой доске пока нет задач</li>
+        {% endfor %}
+        </ol>
+    </p>
+    <p>
+        <h3>просроченные задачи:</h3>
+        <ol>
+        {% for task in tasks_overdue %}
+            <li>
+                {{ task.name }}: {{ task.description }}
+                <a href="{% url 'kanban:task_delete' task.id %}">удалить задачу</a>
+            </li>
+        {% empty %}
+            <li>На этой доске пока нет задач</li>
+        {% endfor %}
+        </ol>
+    </p>
+    <p><a href="{% url 'kanban:task_create' kanban.id %}">добавить задачу</a></p>
     <p><a href="{% url 'kanban:kanban_delete' kanban.id %}">удалить эту доску</a></p>
 {% endblock %}

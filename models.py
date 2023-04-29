@@ -14,15 +14,9 @@ class Kanban(models.Model):
 
 
 class Task(models.Model):
-    STATUSES = (
-        ("new", "new"),
-        ("active", "active"),
-        ("completed", "completed"),
-        ("overdue", "overdue"),
-    )
     name = models.CharField(max_length=100)
     description = models.TextField()
-    status = models.CharField(max_length=100, choices=STATUSES)
+    status = models.CharField(max_length=100, default="new")
     kanban = models.ForeignKey(Kanban, related_name="tasks", on_delete=models.CASCADE)
     created_date = models.DateField(auto_now_add=True)
     created_time = models.TimeField(auto_now_add=True)

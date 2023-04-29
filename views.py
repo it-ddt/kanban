@@ -1,3 +1,4 @@
+from typing import Any, Dict
 from django.shortcuts import render
 from django.views import generic
 from django.urls import reverse_lazy
@@ -34,27 +35,31 @@ class KanbanDeleteView(generic.DeleteView):
 class KanbanDetailView(generic.DetailView):
     model = Kanban
     template_name = "kanban/kanban_detail.html"
-    context_object_name = "kanban"
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         context = super().get_context_data(**kwargs)
-        # Отфильтровать задачи с помощью querry_set
-        context["new_tasks"] = "новые задачи"
-        context["active_tasks"] = "новые задачи"
-        context["completed_tasks"] = "новые задачи"
+        kanban = self.get_object()
+        context["tasks_new"] = Task.objects.filter(kanban=kanban, status="new")
+        context["tasks_active"] = Task.objects.filter(kanban=kanban, status="active")
+        context["tasks_completed"] = Task.objects.filter(kanban=kanban, status="completed")
+        context["tasks_overdue"] = Task.objects.filter(kanban=kanban, status="overdue")
         return context
 
 class TaskCreateView(generic.CreateView):
     model = Task
     template_name = "kanban/task_create.html"
     success_url = reverse_lazy("kanban:index")  # TODO: отпраить пользователя к тому канбану, для которого создана эта задача
-    fields = ["name", "description", "kanban"]
+    fields = ["name", "description"]
 
     def get_success_url(self):
         return reverse_lazy(
             "kanban:kanban_detail",
             kwargs = {'pk': self.object.kanban.pk}
         )
+    
+    def form_valid(self, form):
+        form.instance.kanban = Kanban.objects.get(id=self.kwargs['pk'])
+        return super().form_valid(form)
 
 class TaskDeleteView(generic.DeleteView):
     model = Task
@@ -65,5 +70,3 @@ class TaskDeleteView(generic.DeleteView):
             "kanban:kanban_detail",
             kwargs = {'pk': self.object.kanban.pk}
         )
-
-
