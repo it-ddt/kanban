@@ -13,6 +13,15 @@
         <a href="{% url 'kanban:login' %}">войти</a>
     {% endif %}
 
+    <ul>
+        <li>
+            <a href="{% url 'kanban:index' %}">главная страница</a>
+        </li>
+        <li>
+            <a href="{% url 'admin:index' %}">админка</a>
+        </li>
+    </ul>
+
     {% block content %}
     {% endblock %}
 </body>

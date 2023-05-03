@@ -10,7 +10,8 @@
             <li>
                 {{ task.name }}: {{ task.description }}
                 <a href=""></a> <!-- ссылка на назначение этой задачи -->
-                <a href="{% url 'kanban:task_delete' task.id %}">удалить задачу</a>
+                <a href="{% url 'kanban:task_delete' task.id %}">удалить</a>
+                <a href="{% url 'kanban:task_assign' %}">назначить</a>
             </li>
         {% empty %}
             <li>На этой доске пока нет задач</li>
