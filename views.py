@@ -1,5 +1,5 @@
-from typing import Any, Dict, Optional
 from django.shortcuts import render, get_object_or_404
+from django.utils import timezone
 from django.views import generic
 from django.urls import reverse_lazy
 from django.contrib.auth import views
@@ -46,7 +46,7 @@ class KanbanDetailView(generic.DetailView):
     model = Kanban
     template_name = "kanban/kanban_detail.html"
 
-    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+    def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         kanban = self.get_object()
         context["tasks_new"] = Task.objects.filter(kanban=kanban, status="new")
@@ -97,13 +97,40 @@ class TaskDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.DeleteView
             kwargs = {'pk': self.object.kanban.pk}
         )
 
-def task_assign(request):
-    """
-    TODO:
-    получить экземпляр Task,
-    заменить статус на active,
-    назначить юзера executor,
-    выбрать дату завершения,
-    выбрать время завершения
-    """
-    return render(request, "kanban/index.html")
+
+class TaskActivateView(LoginRequiredMixin, generic.UpdateView):
+    model = Task
+    template_name = "kanban/task_activate.html"
+    fields = ["executor", "deadline_date", "deadline_time"]
+
+    def get_success_url(self):
+        return reverse_lazy(
+            "kanban:kanban_detail",
+            kwargs = {'pk': self.object.kanban.pk}
+        )
+    
+    def form_valid(self, form):
+        if self.object.status == "new":
+            self.object.status = "active"
+            self.object.assigned_time = timezone.now().time()
+            self.object.assigned_date = timezone.now().date()
+        return super().form_valid(form)
+
+
+class TaskCompleteView(LoginRequiredMixin, generic.UpdateView):
+    model = Task
+    template_name = "kanban/task_complete.html"
+    fields = []
+
+    def get_success_url(self):
+        return reverse_lazy(
+            "kanban:kanban_detail",
+            kwargs = {'pk': self.object.kanban.pk}
+        )
+    
+    def form_valid(self, form):
+        if self.object.status == "active":
+            self.object.status = "completed"
+            self.object.completed_time = timezone.now().time()
+            self.object.completed_date = timezone.now().date()
+        return super().form_valid(form)

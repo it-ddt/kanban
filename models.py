@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 from django.contrib.auth.models import User
 
 
@@ -23,10 +24,10 @@ class Task(models.Model):
     assigned_date = models.DateField(auto_now_add=True)
     assigned_time = models.TimeField(auto_now_add=True)
     executor = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
-    deadline_date = models.DateField(auto_now_add=True)
-    deadline_time = models.TimeField(auto_now_add=True)
-    completed_date = models.DateField(auto_now_add=True)
-    completed_time = models.TimeField(auto_now_add=True)
+    deadline_date = models.DateField(default=timezone.now().date())
+    deadline_time = models.TimeField(default=timezone.now().time())
+    completed_date = models.DateField(default=timezone.now().date())
+    completed_time = models.TimeField(default=timezone.now().date())
 
     def __str__(self):
         return self.name

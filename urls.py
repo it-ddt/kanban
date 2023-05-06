@@ -6,9 +6,10 @@ from .views import (
     KanbanDetailView,
     TaskCreateView,
     TaskDeleteView,
+    TaskActivateView,
+    TaskCompleteView,
     LoginView,
     LogoutView,
-    task_assign,
 )
 
 app_name = "kanban"
@@ -20,7 +21,8 @@ urlpatterns = [
     path("kanban_detail/<int:pk>", KanbanDetailView.as_view(), name="kanban_detail"),
     path("task_create/<int:pk>", TaskCreateView.as_view(), name="task_create"),
     path("task_delete/<int:pk>", TaskDeleteView.as_view(), name="task_delete"),
-    path("task_assign", task_assign, name="task_assign"),
+    path("task_activate/<int:pk>", TaskActivateView.as_view(), name="task_activate"),
+    path("task_complete/<int:pk>", TaskCompleteView.as_view(), name="task_complete"),
     path("login", LoginView.as_view(), name="login"),
     path("logout", LogoutView.as_view(), name="logout"),
 ]

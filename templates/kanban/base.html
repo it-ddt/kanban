@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,24 +7,39 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Канбан</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
-    {% if user.is_authenticated %}
-        {{ user.username }} <a href="{% url 'kanban:logout' %}">выйти</a>
-    {% else %}
-        <a href="{% url 'kanban:login' %}">войти</a>
-    {% endif %}
 
-    <ul>
-        <li>
-            <a href="{% url 'kanban:index' %}">главная страница</a>
-        </li>
-        <li>
-            <a href="{% url 'admin:index' %}">админка</a>
-        </li>
-    </ul>
-
-    {% block content %}
-    {% endblock %}
+    <div class="page_container">
+        <header>
+            <nav>
+                <ul>
+                    <li>
+                        <a href="{% url 'kanban:index' %}">главная страница</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'admin:index' %}">админка</a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="user_info">
+                {% if user.is_authenticated %}
+                    {{ user.username }} <a href="{% url 'kanban:logout' %}">выйти</a>
+                {% else %}
+                    <a href="{% url 'kanban:login' %}">войти</a>
+                {% endif %}
+            </div>
+        </header>
+        <main>
+            {% block content %}
+            {% endblock %}
+        </main>
+        <footer>
+            <p>тут пока пусто</p>
+        </footer>
+    </div>
+    
+    
 </body>
 </html>
