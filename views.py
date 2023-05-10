@@ -5,20 +5,24 @@ from django.utils import timezone
 from django.views import generic
 from django.urls import reverse_lazy
 from django.contrib.auth import views
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin 
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .models import Kanban, Task
+
 
 class LoginView(views.LoginView):
     fields = "__all__"
     template_name = "kanban/login.html"
 
+
 class LogoutView(views.LogoutView):
     next_page = reverse_lazy("kanban:index")
+
 
 class KanbanListView(generic.ListView):
     model = Kanban
     template_name = "kanban/index.html"
     context_object_name = "kanbans"  # вместо object_list
+
 
 class KanbanCreateView(LoginRequiredMixin, generic.CreateView):
     model = Kanban
@@ -30,6 +34,7 @@ class KanbanCreateView(LoginRequiredMixin, generic.CreateView):
     def form_valid(self, form):
         form.instance.owner = self.request.user
         return super().form_valid(form)
+
 
 class KanbanDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.DeleteView):
     model = Kanban
@@ -44,6 +49,7 @@ class KanbanDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.DeleteVi
         kanban = get_object_or_404(Kanban, pk=self.kwargs.get("pk"))
         return kanban.owner == self.request.user
 
+
 class KanbanDetailView(generic.DetailView):
     model = Kanban
     template_name = "kanban/kanban_detail.html"
@@ -57,29 +63,31 @@ class KanbanDetailView(generic.DetailView):
         context["tasks_overdue"] = Task.objects.filter(kanban=kanban, status="overdue")
         return context
 
+
 class TaskCreateView(LoginRequiredMixin, UserPassesTestMixin, generic.CreateView):
     model = Task
     template_name = "kanban/task_create.html"
-    success_url = reverse_lazy("kanban:index")  
+    success_url = reverse_lazy("kanban:index")
     fields = ["name", "description"]
     login_url = reverse_lazy("kanban:login")
 
     def test_func(self) -> bool | None:
         kanban = get_object_or_404(Kanban, pk=self.kwargs.get("pk"))
         return kanban.owner == self.request.user
-    
+
     def handle_no_permission(self):
         return render(self.request, "kanban/403.html")
 
     def get_success_url(self):
         return reverse_lazy(
             "kanban:kanban_detail",
-            kwargs = {'pk': self.object.kanban.pk}
+            kwargs={'pk': self.object.kanban.pk}
         )
-    
+
     def form_valid(self, form):
         form.instance.kanban = Kanban.objects.get(id=self.kwargs['pk'])
         return super().form_valid(form)
+
 
 class TaskDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.DeleteView):
     model = Task
@@ -92,7 +100,7 @@ class TaskDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.DeleteView
     def test_func(self) -> bool | None:
         task = self.get_object()
         return task.kanban.owner == self.request.user
-    
+
     def get_success_url(self):
         return reverse_lazy(
             "kanban:kanban_detail",
@@ -108,9 +116,9 @@ class TaskActivateView(LoginRequiredMixin, generic.UpdateView):
     def get_success_url(self):
         return reverse_lazy(
             "kanban:kanban_detail",
-            kwargs = {'pk': self.object.kanban.pk}
+            kwargs={'pk': self.object.kanban.pk}
         )
-    
+
     def form_valid(self, form):
         if self.object.status == "new":
             self.object.status = "active"
@@ -127,9 +135,9 @@ class TaskCompleteView(LoginRequiredMixin, generic.UpdateView):
     def get_success_url(self):
         return reverse_lazy(
             "kanban:kanban_detail",
-            kwargs = {'pk': self.object.kanban.pk}
+            kwargs={'pk': self.object.kanban.pk}
         )
-    
+
     def form_valid(self, form):
         if self.object.status == "active":
             self.object.status = "completed"

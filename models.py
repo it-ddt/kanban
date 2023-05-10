@@ -8,8 +8,8 @@ class Kanban(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.name
-    
+        return str(self.name)
+
     class Meta:
         verbose_name_plural = "Доски"
 
@@ -21,16 +21,21 @@ class Task(models.Model):
     kanban = models.ForeignKey(Kanban, related_name="tasks", on_delete=models.CASCADE)
     created_date = models.DateField(default=timezone.now().date())
     created_time = models.TimeField(default=timezone.now().time())
-    assigned_date = models.DateField(default=timezone.now().date())
-    assigned_time = models.TimeField(default=timezone.now().time())
-    executor = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
-    deadline_date = models.DateField(default=timezone.now().date())
-    deadline_time = models.TimeField(default=timezone.now().time())
-    completed_date = models.DateField(default=timezone.now().date())
-    completed_time = models.TimeField(default=timezone.now().date())
+    assigned_date = models.DateField(null=True, blank=True)
+    assigned_time = models.TimeField(null=True, blank=True)
+    executor = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True
+    )
+    deadline_date = models.DateField(null=True, blank=True)
+    deadline_time = models.TimeField(null=True, blank=True)
+    completed_date = models.DateField(null=True, blank=True)
+    completed_time = models.TimeField(null=True, blank=True)
 
     class Meta:
         verbose_name_plural = "Задачи"
 
     def __str__(self):
-        return self.name
+        return str(self.name)
