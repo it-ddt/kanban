@@ -1,0 +1,38 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.tasks-container {
+    display: flex;
+    gap: 20px;
+    padding: 0 20px;
+}
+
+.tasks-item {
+    border: 1px solid #000;
+    flex-basis: 0;
+    flex-grow: 1;
+    padding: 25px;
+}
+
+.tasks-list {
+    list-style-position: inside;
+}
+
+.task-new {
+    background-color: #58d68d ;
+}
+
+.task-active {
+    background-color: #f4d03f;
+}
+
+.task-completed {
+    background-color: #e67e22;
+}
+
+.task-overdue {
+    background-color: #E08076;
+}

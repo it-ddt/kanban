@@ -1,3 +1,5 @@
+# FIXME: fromisoformat: argument must be str
+
 from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
 from django.views import generic
@@ -58,7 +60,7 @@ class KanbanDetailView(generic.DetailView):
 class TaskCreateView(LoginRequiredMixin, UserPassesTestMixin, generic.CreateView):
     model = Task
     template_name = "kanban/task_create.html"
-    success_url = reverse_lazy("kanban:index")  # TODO: отпраить пользователя к тому канбану, для которого создана эта задача
+    success_url = reverse_lazy("kanban:index")  
     fields = ["name", "description"]
     login_url = reverse_lazy("kanban:login")
 

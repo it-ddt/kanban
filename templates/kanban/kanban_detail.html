@@ -3,69 +3,74 @@
 {% block content %}
     <p>название: <b>{{ kanban.name }}</b></p>
     <p>автор: <b>{{ kanban.owner }}</b></p>
-    <p>
-        <h3>новые задачи:</h3>
-        <ol>
-        {% for task in tasks_new %}
-            <li>
-                {{ task.name }}: {{ task.description }}
-                <a href=""></a> <!-- ссылка на назначение этой задачи -->
-                {% if object.owner == user %}
-                    <a href="{% url 'kanban:task_delete' task.id %}">удалить</a>
-                    <a href="{% url 'kanban:task_activate' task.id %}">назначить</a>
-                {% endif %}
-            </li>
-        {% empty %}
-            <li>На этой доске пока нет задач</li>
-        {% endfor %}
-        </ol>
-    </p>
-    <p>
-        <h3>активные задачи:</h3>
-        <ol>
-        {% for task in tasks_active %}
-            <li>
-                {{ task.name }}: {{ task.description }}
-                {% if object.owner == user %}
-                    <a href="{% url 'kanban:task_delete' task.id %}">удалить</a>
-                    <a href="{% url 'kanban:task_complete' task.id %}">завершить</a>
-                {% endif %}
-            </li>
-        {% empty %}
-            <li>На этой доске пока нет задач</li>
-        {% endfor %}
-        </ol>
-    </p>
-    <p>
-        <h3>готвые задачи:</h3>
-        <ol>
-        {% for task in tasks_completed %}
-            <li>
-                {{ task.name }}: {{ task.description }}
-                {% if object.owner == user %}
-                    <a href="{% url 'kanban:task_delete' task.id %}">удалить</a>
-                {% endif %}
-            </li>
-        {% empty %}
-            <li>На этой доске пока нет задач</li>
-        {% endfor %}
-        </ol>
-    </p>
-    <p>
-        <h3>просроченные задачи:</h3>
-        <ol>
-        {% for task in tasks_overdue %}
-            <li>
-                {{ task.name }}: {{ task.description }}
-                {% if object.owner == user %}
-                    <a href="{% url 'kanban:task_delete' task.id %}">удалить</a>
-                {% endif %}
-            </li>
-        {% empty %}
-            <li>На этой доске пока нет задач</li>
-        {% endfor %}
-        </ol>
-    </p>
+    <div class="tasks-container">
+        <div class="tasks-item task-new">
+            <h3>новые задачи:</h3>
+            <ol class="tasks-list">
+            {% for task in tasks_new %}
+                <li>
+                    {{ task.name }}: {{ task.description }}
+                    <a href=""></a> <!-- ссылка на назначение этой задачи -->
+                    {% if object.owner == user %}
+                        <a href="{% url 'kanban:task_delete' task.id %}">удалить</a>
+                        <a href="{% url 'kanban:task_activate' task.id %}">назначить</a>
+                    {% endif %}
+                </li>
+            {% empty %}
+                <li>На этой доске пока нет задач</li>
+            {% endfor %}
+            </ol>
+        </div>
+    
+        <div class="tasks-item task-active">
+            <h3>активные задачи:</h3>
+            <ol class="tasks-list">
+            {% for task in tasks_active %}
+                <li>
+                    {{ task.name }}: {{ task.description }}
+                    {% if object.owner == user %}
+                        <a href="{% url 'kanban:task_delete' task.id %}">удалить</a>
+                        <a href="{% url 'kanban:task_complete' task.id %}">завершить</a>
+                    {% endif %}
+                </li>
+            {% empty %}
+                <li>На этой доске пока нет задач</li>
+            {% endfor %}
+            </ol>
+        </div>
+
+        <div class="tasks-item task-completed">
+            <h3>готвые задачи:</h3>
+            <ol class="tasks-list">
+            {% for task in tasks_completed %}
+                <li>
+                    {{ task.name }}: {{ task.description }}
+                    {% if object.owner == user %}
+                        <a href="{% url 'kanban:task_delete' task.id %}">удалить</a>
+                    {% endif %}
+                </li>
+            {% empty %}
+                <li>На этой доске пока нет задач</li>
+            {% endfor %}
+            </ol>
+        </div>
+        
+        <div class="tasks-item task-overdue">
+            <h3>просроченные задачи:</h3>
+            <ol class="tasks-list">
+            {% for task in tasks_overdue %}
+                <li>
+                    {{ task.name }}: {{ task.description }}
+                    {% if object.owner == user %}
+                        <a href="{% url 'kanban:task_delete' task.id %}">удалить</a>
+                    {% endif %}
+                </li>
+            {% empty %}
+                <li>На этой доске пока нет задач</li>
+            {% endfor %}
+            </ol>
+        </div>
+    </div>
     {% if object.owner == user %}
     <a href="{% url 'kanban:task_create' kanban.id %}">добавить задачу</a><br>
     <a href="{% url 'kanban:kanban_delete' kanban.id %}">удалить эту доску</a>
