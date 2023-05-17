@@ -121,6 +121,9 @@ class TaskActivateView(LoginRequiredMixin, generic.UpdateView):
 
     def form_valid(self, form):
         if self.object.status == "new":
+            if not form.cleaned_data["executor"]:
+                form.add_error("executor", "Назначьте исполнителя!")
+                return super().form_invalid(form)
             self.object.status = "active"
             self.object.assigned_time = timezone.now().time()
             self.object.assigned_date = timezone.now().date()

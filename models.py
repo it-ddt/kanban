@@ -15,9 +15,9 @@ class Kanban(models.Model):
 
 
 class Task(models.Model):
-    name = models.CharField(max_length=100)
-    description = models.TextField()
-    status = models.CharField(max_length=100, default="new")
+    name = models.CharField(max_length=100, verbose_name="название")
+    description = models.TextField(verbose_name="описание")
+    status = models.CharField(max_length=100, default="new", verbose_name="статус")
     kanban = models.ForeignKey(Kanban, related_name="tasks", on_delete=models.CASCADE)
     created_date = models.DateField(default=timezone.now().date())
     created_time = models.TimeField(default=timezone.now().time())
@@ -27,10 +27,11 @@ class Task(models.Model):
         User,
         on_delete=models.SET_NULL,
         null=True,
-        blank=True
+        blank=True,
+        verbose_name="исполнитель"
     )
-    deadline_date = models.DateField(null=True, blank=True)
-    deadline_time = models.TimeField(null=True, blank=True)
+    deadline_date = models.DateField(null=True, blank=True, verbose_name="дедлайн дата")
+    deadline_time = models.TimeField(null=True, blank=True, verbose_name="дедлайн время")
     completed_date = models.DateField(null=True, blank=True)
     completed_time = models.TimeField(null=True, blank=True)
 

@@ -16,6 +16,9 @@
                         <a href="{% url 'kanban:task_activate' task.id %}">назначить</a>
                     </div>
                     {% endif %}
+                    <p class="task-info">
+                        создано: {{ task.created_date }} в {{ task.created_time }}
+                    </p>
                     <p class="task-description">
                         {{ task.description|truncatechars:100 }}
                         <a href="">подробнее</a>
@@ -39,6 +42,7 @@
                 {% endif %}
                 <p class="task-info">
                     исполнитель: <strong>{{ task.executor }}</strong><br>
+                    создано: {{ task.created_date }} в {{ task.created_time }}<br>
                     назначено: {{ task.assigned_date }} в {{ task.assigned_time }}<br>
                     окончание: {{ task.deadline_date }} в {{ task.deadline_time }}
                 </p>
@@ -64,6 +68,7 @@
                     {% endif %}
                     <p class="task-info">
                         исполнитель: <strong>{{ task.executor }}</strong><br>
+                        создано: {{ task.created_date }} в {{ task.created_time }}<br>
                         назначено: {{ task.assigned_date }} в {{ task.assigned_time }}<br>
                         окончание: {{ task.deadline_date }} в {{ task.deadline_time }}<br>
                         завершено: {{ task.completed_date }} в {{ task.completed_time }}

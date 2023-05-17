@@ -4,6 +4,48 @@
     box-sizing: border-box;
 }
 
+.page_container {
+    min-height: 100vh;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+}
+
+.header-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    align-items: center;
+    padding: 20px;
+    background-color: #000;
+    color: #fff;
+    margin-bottom: 15px;
+}
+
+.logo-container {
+    text-align: center;
+}
+
+.header-logo {
+    width: 50px;
+    height: auto;
+    filter: invert(1);
+}
+
+.nav-container {
+    display: flex;
+    gap: 15px;
+    list-style-type: none;
+}
+
+.header-link {
+    color: #fff;
+    text-decoration: none;
+    border-bottom: 1px solid #fff;
+}
+
+.user_info {
+    text-align: right;
+}
+
 .kanban-title {
     text-align: center;
 }
