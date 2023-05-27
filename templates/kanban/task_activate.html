@@ -1,9 +1,47 @@
 {% extends "kanban/base.html" %}
 
 {% block content %}
-    <form action="" method="POST">
+    <h1>Activate Task</h1>
+    <form method="POST">
         {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit">
+        
+        <!-- Select an executor -->
+        <div class="form-group">
+            <label for="{{ form.executor.id_for_label }}">Executor:</label>
+            {{ form.executor }}
+            {% if form.executor.errors %}
+                {% for error in form.executor.errors %}
+                    <span class="text-danger">{{ error }}</span><br>
+                {% endfor %}
+            {% endif %}
+        </div>
+        
+        <!-- Select a deadline date -->
+        <div class="form-group">
+            <label for="{{ form.deadline_date.id_for_label }}">Deadline Date:</label>
+            {% if form.deadline_date.errors %}
+                {{ form.deadline_date }}<br>
+                {% for error in form.deadline_date.errors %}
+                    <span class="text-danger">{{ error }}</span><br>
+                {% endfor %}
+            {% else %}
+                <input type="date" name="{{ form.deadline_date.name }}" id="{{ form.deadline_date.id_for_label }}" value="{{ form.deadline_date.value|default:'' }}" class="form-control">
+            {% endif %}
+        </div>
+        
+        <!-- Select a deadline time -->
+        <div class="form-group">
+            <label for="{{ form.deadline_time.id_for_label }}">Deadline Time:</label>
+            {% if form.deadline_time.errors %}
+                {{ form.deadline_time }}<br>
+                {% for error in form.deadline_time.errors %}
+                    <span class="text-danger">{{ error }}</span><br>
+                {% endfor %}
+            {% else %}
+                <input type="time" name="{{ form.deadline_time.name }}" id="{{ form.deadline_time.id_for_label }}" value="{{ form.deadline_time.value|default:'' }}" class="form-control">
+            {% endif %}
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Activate</button>
     </form>
 {% endblock %}

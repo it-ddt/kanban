@@ -1,4 +1,8 @@
-# FIXME: fromisoformat: argument must be str
+"""
+FIXME: Не выбирается дата и время дедлайна, говорит enter valid date
+
+"""
+
 
 from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
@@ -7,6 +11,7 @@ from django.urls import reverse_lazy
 from django.contrib.auth import views
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .models import Kanban, Task
+from django.db.models import Q
 
 
 class LoginView(views.LoginView):
@@ -21,7 +26,16 @@ class LogoutView(views.LogoutView):
 class KanbanListView(generic.ListView):
     model = Kanban
     template_name = "kanban/index.html"
-    context_object_name = "kanbans"  # вместо object_list
+    context_object_name = "kanbans"
+
+    def get_queryset(self):
+        user = self.request.user
+        if not user.is_authenticated:
+            return Kanban.objects.none()
+
+        # If the user is a kanban owner or executor of any task of kanban
+        kanbans = Kanban.objects.filter(Q(owner=user) | Q(tasks__executor=user)).distinct()
+        return kanbans
 
 
 class KanbanCreateView(LoginRequiredMixin, generic.CreateView):
@@ -123,6 +137,12 @@ class TaskActivateView(LoginRequiredMixin, generic.UpdateView):
         if self.object.status == "new":
             if not form.cleaned_data["executor"]:
                 form.add_error("executor", "Назначьте исполнителя!")
+                return super().form_invalid(form)
+            if not form.cleaned_data["deadline_date"]:
+                form.add_error("deadline_date", "Назначьте дату дедлайна!")
+                return super().form_invalid(form)
+            if not form.cleaned_data["deadline_time"]:
+                form.add_error("deadline_time", "Назначьте время дедлайна!")
                 return super().form_invalid(form)
             self.object.status = "active"
             self.object.assigned_time = timezone.now().time()
