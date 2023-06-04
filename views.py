@@ -7,7 +7,6 @@ detail для Task
 регистрация пользователей по ивайтам
 """
 
-
 from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
 from django.views import generic
@@ -21,6 +20,10 @@ from django.db.models import Q
 class LoginView(views.LoginView):
     fields = "__all__"
     template_name = "kanban/login.html"
+    success_url = reverse_lazy("kanban:index")
+
+    def get_success_url(self):
+        return self.success_url
 
 
 class LogoutView(views.LogoutView):
@@ -29,17 +32,22 @@ class LogoutView(views.LogoutView):
 
 class KanbanListView(generic.ListView):
     model = Kanban
-    template_name = "kanban/index.html"
-    context_object_name = "kanbans"
+    template_name = 'kanban/index.html'
+    context_object_name = 'kanbans'
 
-    def get_queryset(self):
-        user = self.request.user
-        if not user.is_authenticated:
-            return Kanban.objects.none()
-
-        # If the user is a kanban owner or executor of any task of kanban
-        kanbans = Kanban.objects.filter(Q(owner=user) | Q(tasks__executor=user)).distinct()
-        return kanbans
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if not self.request.user.is_authenticated:
+            context['login_required'] = True
+        else:
+            user = self.request.user
+            my_kanbans = Kanban.objects.filter(owner=user)
+            partner_kanbans = Kanban.objects.filter(tasks__executor=user).distinct()
+            kanbans = my_kanbans.union(partner_kanbans)
+            context['my_kanbans'] = my_kanbans
+            context['partner_kanbans'] = partner_kanbans
+            context['kanbans'] = kanbans
+        return context
 
 
 class KanbanCreateView(LoginRequiredMixin, generic.CreateView):
@@ -47,7 +55,7 @@ class KanbanCreateView(LoginRequiredMixin, generic.CreateView):
     template_name = "kanban/kanban_create.html"
     success_url = reverse_lazy("kanban:index")
     fields = ["name"]
-    login_url = reverse_lazy("kanban:login")
+    login_url = reverse_lazy("kanban:user_login")
 
     def form_valid(self, form):
         form.instance.owner = self.request.user
@@ -58,7 +66,7 @@ class KanbanDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.DeleteVi
     model = Kanban
     template_name = "kanban/kanban_delete.html"
     success_url = reverse_lazy("kanban:index")
-    login_url = reverse_lazy("kanban:login")
+    login_url = reverse_lazy("kanban:user_login")
 
     def handle_no_permission(self):
         return render(self.request, "kanban/403.html")
@@ -87,7 +95,7 @@ class TaskCreateView(LoginRequiredMixin, UserPassesTestMixin, generic.CreateView
     template_name = "kanban/task_create.html"
     success_url = reverse_lazy("kanban:index")
     fields = ["name", "description"]
-    login_url = reverse_lazy("kanban:login")
+    login_url = reverse_lazy("kanban:user_login")
 
     def test_func(self) -> bool | None:
         kanban = get_object_or_404(Kanban, pk=self.kwargs.get("pk"))
@@ -110,7 +118,7 @@ class TaskCreateView(LoginRequiredMixin, UserPassesTestMixin, generic.CreateView
 class TaskDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.DeleteView):
     model = Task
     template_name = "kanban/task_delete.html"
-    login_url = reverse_lazy("kanban:login")
+    login_url = reverse_lazy("kanban:user_login")
 
     def handle_no_permission(self):
         return render(self.request, "kanban/403.html")

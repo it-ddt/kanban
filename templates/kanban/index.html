@@ -1,17 +1,38 @@
 {% extends "kanban/base.html" %}
 
 {% block content %}
-<ul>
-    {% if kanbans %}
-        {% for kanban in kanbans %}
-             <li><a href="{% url 'kanban:kanban_detail' kanban.id %}">{{ kanban.name }}</a></li>
-        {% endfor %}
-    {% else %}
-        <li>Канбанов пока нет</li>
-    {% endif %}
-</ul>
 
-{% if user.is_authenticated %}
-    <a href="{% url 'kanban:kanban_create' %}">добавить канбан</a>
-{% endif %}
+    {% if login_required %}
+        <a href="{% url 'kanban:user_login' %}">Войдите</a> или 
+        <a href="{% url 'kanban:user_register' %}">зарегистрируйтесь</a>
+        чтобы увидеть здесь свои доски.
+    </li>
+    {% else %}
+
+        {% if my_kanbans %}
+        <h2>мои доски</h2>
+        <ul>
+            {% for kanban in my_kanbans %}
+            <li><a href="{% url 'kanban:kanban_detail' kanban.id %}">{{ kanban.name }}</a></li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>Вы пока не создали досок.</p>
+        {% endif %}
+
+        {% if partner_kanbans %}
+        <h2>доски с задачами для меня</h2>
+        <ul>
+            {% for kanban in partner_kanbans %}
+            <li><a href="{% url 'kanban:kanban_detail' kanban.id %}">{{ kanban.name }}</a></li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        {% if user.is_authenticated %}
+            <a href="{% url 'kanban:kanban_create' %}">создать доску</a>
+        {% endif %}
+    
+    {% endif %}    
+
 {% endblock %}

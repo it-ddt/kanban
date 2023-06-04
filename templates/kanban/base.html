@@ -14,38 +14,59 @@
 
     <div class="page_container">
         <header class="header-container">
-            <nav>
-                <ul class="nav-container">
-                    <li>
+
+            <nav class="nav-container">
+                <ul class="header-list">
+                    <li class="header-list-item">
                         <a class="header-link" href="{% url 'kanban:index' %}">главная страница</a>
                     </li>
                     {% if user.is_authenticated %}
-                    <li>
+                    <li class="header-list-item">
                         <a class="header-link" href="{% url 'admin:index' %}">админка</a>
                     </li>
                     {% endif %}
                 </ul>
             </nav>
+
             <div class="logo-container">
-                <img class="header-logo" src="{% static 'img/logo.png' %}" alt="">
+                <a class="logo-item" href="{% url 'kanban:index' %}">
+                    <img class="logo-img" src="{% static 'img/logo.png' %}" alt="Кабан!">
+                </a>
+                <a class="logo-item" href="{% url 'kanban:index' %}">
+                    <span class="logo-text">Рабочее название</span>
+                </a>
             </div>
-            <div class="user_info">
-                {% if user.is_authenticated %}
-                    {{ user.username }} <a class="header-link" href="{% url 'kanban:logout' %}">выйти</a>
-                {% else %}
-                    <a class="header-link" href="{% url 'kanban:login' %}">войти</a>
-                {% endif %}
+
+            <div class="user_container">
+                <ul class="header-list">
+                    {% if user.is_authenticated %}
+                    <li class="header-list-item">
+                        Привет, <strong>{{ user.username }}</strong>!
+                    </li>
+                    <li class="header-list-item">
+                        <a class="header-link" href="{% url 'kanban:user_logout' %}">выйти</a>
+                    </li>
+                    {% else %}
+                    <li class="header-list-item">
+                        <a class="header-link" href="{% url 'kanban:user_login' %}">войти</a>
+                    </li>
+                    <li class="header-list-item">
+                        <a class="header-link" href="{% url 'kanban:user_register' %}">зарегистрироваться</a>
+                    </li>
+                    {% endif %}
+                </ul>
             </div>
         </header>
+
         <main>
-            {% block content %}
-            {% endblock %}
+            {% block content %}{% endblock %}
         </main>
-        <footer>
-            <p>тут пока пусто</p>
+
+        <footer class="footer-container">
+            <p class="footer-item">&copy; 2023 &ndash; команда &laquo;Свидетели Баго́вы&raquo; и кружок <a class="footer-link" href="https://vk.com/ddtinfo">&laquo;Информационные технологии&raquo;</a></p>
         </footer>
+
     </div>
-    
     
 </body>
 </html>

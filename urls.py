@@ -23,6 +23,7 @@ urlpatterns = [
     path("task_delete/<int:pk>", TaskDeleteView.as_view(), name="task_delete"),
     path("task_activate/<int:pk>", TaskActivateView.as_view(), name="task_activate"),
     path("task_complete/<int:pk>", TaskCompleteView.as_view(), name="task_complete"),
-    path("login", LoginView.as_view(), name="login"),
-    path("logout", LogoutView.as_view(), name="logout"),
+    path("user_login", LoginView.as_view(), name="user_login"),
+    path("user_logout", LogoutView.as_view(), name="user_logout"),
+    path("user_register", LogoutView.as_view(), name="user_register"),  # FIXME: тут пока нет вьюхи регистрации
 ]
