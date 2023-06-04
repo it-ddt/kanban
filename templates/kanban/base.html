@@ -20,6 +20,9 @@
                     <li class="header-list-item">
                         <a class="header-link" href="{% url 'kanban:index' %}">главная страница</a>
                     </li>
+                    <li class="header-list-item">
+                        <a class="header-link" href="{% url 'kanban:index' %}">о проекте</a>
+                    </li>
                     {% if user.is_authenticated %}
                     <li class="header-list-item">
                         <a class="header-link" href="{% url 'admin:index' %}">админка</a>
@@ -58,7 +61,7 @@
             </div>
         </header>
 
-        <main>
+        <main class="main-container">
             {% block content %}{% endblock %}
         </main>
 

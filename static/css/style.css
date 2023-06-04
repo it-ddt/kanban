@@ -47,6 +47,27 @@
     font-size: 2rem;
 }
 
+.main-container {
+    padding: 30px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.kanbans-section:not(:last-child) {
+    margin-bottom: 30px;
+}
+
+.kanbans-list {
+    list-style-type: none;
+}
+
+.tasks-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 15px;
+}
+
 .footer-container {
     padding: 20px 30px;
     background-color: #000;
