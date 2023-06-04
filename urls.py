@@ -10,6 +10,7 @@ from .views import (
     TaskCompleteView,
     LoginView,
     LogoutView,
+    user_register,
 )
 
 app_name = "kanban"
@@ -25,5 +26,5 @@ urlpatterns = [
     path("task_complete/<int:pk>", TaskCompleteView.as_view(), name="task_complete"),
     path("user_login", LoginView.as_view(), name="user_login"),
     path("user_logout", LogoutView.as_view(), name="user_logout"),
-    path("user_register", LogoutView.as_view(), name="user_register"),  # FIXME: тут пока нет вьюхи регистрации
+    path("user_register", user_register, name="user_register"),  # FIXME: тут пока нет вьюхи регистрации
 ]

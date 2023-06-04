@@ -6,15 +6,17 @@ detail для Task
 выгрузка на сервер
 регистрация пользователей по ивайтам
 """
-
-from django.shortcuts import render, get_object_or_404
+from __future__ import annotations
+from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
 from django.views import generic
 from django.urls import reverse_lazy
-from django.contrib.auth import views
+from django.contrib.auth import views, authenticate, login  # authenticate, login для входа после регистрации
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .models import Kanban, Task
 from django.db.models import Q
+from django.contrib import messages  # для сообщения при ошибке регистрации
+from .forms import user_register_form  # форма регистрации
 
 
 class LoginView(views.LoginView):
@@ -179,3 +181,30 @@ class TaskCompleteView(LoginRequiredMixin, generic.UpdateView):
             self.object.completed_time = timezone.now().time()
             self.object.completed_date = timezone.now().date()
         return super().form_valid(form)
+
+
+def user_register(request):
+    if request.method == 'POST':
+        form = user_register_form(request.POST)
+        if form.is_valid():
+            form.save()
+            username = request.POST["username"]
+            password = request.POST["password1"]
+            user = authenticate(
+                username=username,
+                password=password,
+            )
+            if user is not None:
+                login(request, user)
+
+        else:
+            messages.error(request, message="Возникла ошибка авторизации. Попробуйте ещё раз.")
+            return reverse_lazy("kanban:index")
+    else:
+        form = user_register_form()
+
+    return render(
+        request,
+        "kanban/user_register.html",
+        {"form": form}
+    )
