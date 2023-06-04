@@ -1,31 +1,19 @@
 from django import forms
-from django.contrib.auth import password_validation as pv
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
 
-
-class user_register_form(UserCreationForm):
-    first_name = forms.CharField(label="Имя: ", max_length=150)
-    last_name = forms.CharField(label="Фамилия: ", max_length=150)
-    username = forms.CharField(label="Псевдоним: ", max_length=150)
-    password1 = forms.CharField(
-        label="Пароль",
-        widget=forms.PasswordInput,
-        help_text="<p>[!] Ваш пароль должен содержать как минимум 5 символов.</p>"
-    )
-    password2 = forms.CharField(
-        label="Подтверждение пароля: ",
-        widget=forms.PasswordInput,
-    )
+class SignUpForm(UserCreationForm):
+    first_name = forms.CharField(max_length=30, required=False, help_text='Optional')
+    last_name = forms.CharField(max_length=30, required=False, help_text='Optional')
+    email = forms.EmailField(max_length=254, help_text='Enter a valid email address')
 
     class Meta:
         model = User
-
-        # TODO Email
         fields = [
-            "first_name",
-            "last_name",
-            "username",
-            "password1",
-            "password2",
-        ]
+            'username', 
+            'first_name', 
+            'last_name', 
+            'email', 
+            'password1', 
+            'password2', 
+            ]
