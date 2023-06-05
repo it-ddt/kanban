@@ -5,11 +5,11 @@ detail для Task
 просрочка Task
 выгрузка на сервер
 """
-
+from __future__ import annotations
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
 from django.views import generic
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.contrib.auth import views, authenticate, login
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .models import Kanban, Task
@@ -68,13 +68,16 @@ class KanbanListView(generic.ListView):
 class KanbanCreateView(LoginRequiredMixin, generic.CreateView):
     model = Kanban
     template_name = "kanban/kanban_create.html"
-    success_url = reverse_lazy("kanban:index")
     fields = ["name"]
     login_url = reverse_lazy("kanban:user_login")
 
     def form_valid(self, form):
         form.instance.owner = self.request.user
         return super().form_valid(form)
+
+    def get_success_url(self):
+        pk = self.object.id
+        return reverse('kanban:kanban_detail', kwargs={'pk': pk})
 
 
 class KanbanDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.DeleteView):
