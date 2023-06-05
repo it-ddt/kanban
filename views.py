@@ -133,6 +133,12 @@ class TaskCreateView(LoginRequiredMixin, UserPassesTestMixin, generic.CreateView
         return super().form_valid(form)
 
 
+class TaskDetailView(generic.DetailView):
+    model = Task
+    context_object_name = "task"
+    template_name = "kanban/task_detail.html"
+
+
 class TaskDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.DeleteView):
     model = Task
     template_name = "kanban/task_delete.html"
