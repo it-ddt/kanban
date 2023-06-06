@@ -133,7 +133,7 @@ class TaskCreateView(LoginRequiredMixin, UserPassesTestMixin, generic.CreateView
         return super().form_valid(form)
 
 
-class TaskDetailView(generic.DetailView):
+class TaskDetailView(LoginRequiredMixin, generic.DetailView):  # TODO: запретить просмотр, если я не owner
     model = Task
     context_object_name = "task"
     template_name = "kanban/task_detail.html"

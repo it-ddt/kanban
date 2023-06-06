@@ -21,7 +21,7 @@
                     </p>
                     <p class="task-description">
                         {{ task.description|truncatechars:100 }}
-                        <a href="">подробнее</a>
+                        <a href="{% url 'kanban:task_detail' task.id %}">подробнее</a>
                     </p>
                 </li>
             {% endfor %}
