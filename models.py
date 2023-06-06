@@ -19,10 +19,10 @@ class Task(models.Model):
     description = models.TextField(verbose_name="описание")
     status = models.CharField(max_length=100, default="new", verbose_name="статус")
     kanban = models.ForeignKey(Kanban, related_name="tasks", on_delete=models.CASCADE)
-    created_date = models.DateField(default=timezone.now().date())
-    created_time = models.TimeField(default=timezone.now().time())
-    assigned_date = models.DateField(null=True, blank=True)
-    assigned_time = models.TimeField(null=True, blank=True)
+    created_date = models.DateField(default=timezone.now, verbose_name="дата создания")
+    created_time = models.TimeField(default=timezone.now, verbose_name="время создания")
+    assigned_date = models.DateField(null=True, blank=True, verbose_name="дата назначения")
+    assigned_time = models.TimeField(null=True, blank=True, verbose_name="время назначения")
     executor = models.ForeignKey(
         User,
         on_delete=models.SET_NULL,
@@ -30,10 +30,10 @@ class Task(models.Model):
         blank=True,
         verbose_name="исполнитель"
     )
-    deadline_date = models.DateField(null=True, blank=True, verbose_name="дедлайн дата")
-    deadline_time = models.TimeField(null=True, blank=True, verbose_name="дедлайн время")
-    completed_date = models.DateField(null=True, blank=True)
-    completed_time = models.TimeField(null=True, blank=True)
+    deadline_date = models.DateField(null=True, blank=True, verbose_name="дата дедлайна")
+    deadline_time = models.TimeField(null=True, blank=True, verbose_name="время дедлайна")
+    completed_date = models.DateField(null=True, blank=True, verbose_name="дата завершения")
+    completed_time = models.TimeField(null=True, blank=True, verbose_name="время завершения")
 
     class Meta:
         verbose_name_plural = "Задачи"
