@@ -170,6 +170,17 @@ class TaskActivateView(LoginRequiredMixin, generic.UpdateView):
         )
 
     def form_valid(self, form):
+        task = form.instance
+        current_datetime = timezone.localtime(timezone.now())
+ 
+        if task.deadline_date and task.deadline_time:
+            deadline_datetime = timezone.datetime.combine(task.deadline_date, task.deadline_time)
+            deadline_datetime = timezone.make_aware(deadline_datetime)
+
+            if deadline_datetime < current_datetime:
+                form.add_error("deadline_date", "Дедлайн не может быть раньше, чем текущая дата и время!")
+                return super().form_invalid(form)
+        
         if self.object.status == "new":
             if not form.cleaned_data["executor"]:
                 form.add_error("executor", "Назначьте исполнителя!")
@@ -183,6 +194,7 @@ class TaskActivateView(LoginRequiredMixin, generic.UpdateView):
             self.object.status = "active"
             self.object.assigned_time = timezone.now().time()
             self.object.assigned_date = timezone.now().date()
+
         return super().form_valid(form)
 
 
