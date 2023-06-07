@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 
 
 class Kanban(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, unique=True, verbose_name="название")
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -22,7 +22,7 @@ class Task(models.Model):
         ('overdue', ('просроченная')),
     ]
 
-    name = models.CharField(max_length=100, verbose_name="название")
+    name = models.CharField(max_length=100, verbose_name="название", unique=True)
     description = models.TextField(verbose_name="описание")
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default="new", verbose_name="статус")
     kanban = models.ForeignKey(Kanban, related_name="tasks", on_delete=models.CASCADE)
