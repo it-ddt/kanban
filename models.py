@@ -15,9 +15,16 @@ class Kanban(models.Model):
 
 
 class Task(models.Model):
+    STATUS_CHOICES = [
+        ('new', ('новая')),
+        ('active', ('активная')),
+        ('completed', ('завершенная')),
+        ('overdue', ('просроченная')),
+    ]
+
     name = models.CharField(max_length=100, verbose_name="название")
     description = models.TextField(verbose_name="описание")
-    status = models.CharField(max_length=100, default="new", verbose_name="статус")
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default="new", verbose_name="статус")
     kanban = models.ForeignKey(Kanban, related_name="tasks", on_delete=models.CASCADE)
     created_date = models.DateField(default=timezone.now, verbose_name="дата создания")
     created_time = models.TimeField(default=timezone.now, verbose_name="время создания")
@@ -40,3 +47,7 @@ class Task(models.Model):
 
     def __str__(self):
         return str(self.name)
+    
+    def get_status_display(self):
+        status_display = dict(self.STATUS_CHOICES)
+        return status_display.get(self.status, '')

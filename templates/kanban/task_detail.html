@@ -3,6 +3,7 @@
 {% block content %}
     <h2 class="task-title">{{ task.name }}</h2>
     <p>принадлежит доске: <a href="{% url 'kanban:kanban_detail' pk=task.kanban.pk %}">{{ task.kanban.name }}</a></p>
+    <p>статус: {{ task.get_status_display }}</p>
     <p>{{ task.description }}</p>
     {% if request.user == task.kanban.owner %}
         <p><a href="{% url 'kanban:task_delete' pk=task.pk %}">удалить задачу</a></p>
