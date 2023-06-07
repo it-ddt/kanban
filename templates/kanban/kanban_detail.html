@@ -24,6 +24,8 @@
                         <a href="{% url 'kanban:task_detail' task.id %}">подробнее</a>
                     </p>
                 </li>
+            {% empty %}
+                <li>нет новых задач</li>
             {% endfor %}
             </ol>
         </div>
@@ -48,9 +50,11 @@
                 </p>
                 <p class="task-description">
                     {{ task.description|truncatechars:100 }}
-                    <a href="">подробнее</a>
+                    <a href="{% url 'kanban:task_detail' task.id %}">подробнее</a>
                 </p>
             </li>
+            {% empty %}
+                <li>нет активных задач</li>
             {% endfor %}
             </ol>
         </div>
@@ -75,9 +79,11 @@
                     </p>
                     <p class="task-description">
                         {{ task.description|truncatechars:100 }}
-                        <a href="">подробнее</a>
+                        <a href="{% url 'kanban:task_detail' task.id %}">подробнее</a>
                     </p>
                 </li>
+            {% empty %}
+                <li>нет готовых задач</li>
             {% endfor %}
             </ol>
         </div>
@@ -86,12 +92,27 @@
             <h3>просроченные задачи:</h3>
             <ol class="tasks-list">
             {% for task in tasks_overdue %}
-                <li>
-                    {{ task.name }}: {{ task.description }}
-                    {% if object.owner == user %}
-                        <a href="{% url 'kanban:task_delete' task.id %}">удалить</a>
-                    {% endif %}
-                </li>
+            <li>
+                <h4>{{ task.name }}</h4>
+                {% if object.owner == user %}
+                <div class="task-controls">
+                    <a href="{% url 'kanban:task_delete' task.id %}">удалить</a>
+                    <a href="{% url 'kanban:task_complete' task.id %}">завершить</a>
+                </div>
+                {% endif %}
+                <p class="task-info">
+                    исполнитель: <strong>{{ task.executor }}</strong><br>
+                    создано: {{ task.created_date }} в {{ task.created_time }}<br>
+                    назначено: {{ task.assigned_date }} в {{ task.assigned_time }}<br>
+                    дедлайн: {{ task.deadline_date }} в {{ task.deadline_time }}
+                </p>
+                <p class="task-description">
+                    {{ task.description|truncatechars:100 }}
+                    <a href="{% url 'kanban:task_detail' task.id %}">подробнее</a>
+                </p>
+            </li>
+            {% empty %}
+                <li>нет просроченных задач</li>
             {% endfor %}
             </ol>
         </div>
