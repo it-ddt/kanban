@@ -72,7 +72,8 @@ class KanbanCreateView(LoginRequiredMixin, generic.CreateView):
     login_url = reverse_lazy("kanban:user_login")
 
     def form_valid(self, form):
-        form.instance.owner = self.request.user
+        instance = form.instance
+        instance.owner = self.request.user
         return super().form_valid(form)
 
     def get_success_url(self):
