@@ -72,7 +72,8 @@ class KanbanCreateView(LoginRequiredMixin, generic.CreateView):
     login_url = reverse_lazy("kanban:user_login")
 
     def form_valid(self, form):
-        form.instance.owner = self.request.user
+        instance = form.instance
+        instance.owner = self.request.user
         return super().form_valid(form)
 
     def get_success_url(self):
@@ -133,6 +134,12 @@ class TaskCreateView(LoginRequiredMixin, UserPassesTestMixin, generic.CreateView
         return super().form_valid(form)
 
 
+class TaskDetailView(LoginRequiredMixin, generic.DetailView):  # TODO: запретить просмотр, если я не owner
+    model = Task
+    context_object_name = "task"
+    template_name = "kanban/task_detail.html"
+
+
 class TaskDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.DeleteView):
     model = Task
     template_name = "kanban/task_delete.html"
@@ -164,6 +171,17 @@ class TaskActivateView(LoginRequiredMixin, generic.UpdateView):
         )
 
     def form_valid(self, form):
+        task = form.instance
+        current_datetime = timezone.localtime(timezone.now())
+ 
+        if task.deadline_date and task.deadline_time:
+            deadline_datetime = timezone.datetime.combine(task.deadline_date, task.deadline_time)
+            deadline_datetime = timezone.make_aware(deadline_datetime)
+
+            if deadline_datetime < current_datetime:
+                form.add_error("deadline_date", "Дедлайн не может быть раньше, чем текущая дата и время!")
+                return super().form_invalid(form)
+        
         if self.object.status == "new":
             if not form.cleaned_data["executor"]:
                 form.add_error("executor", "Назначьте исполнителя!")
@@ -177,6 +195,7 @@ class TaskActivateView(LoginRequiredMixin, generic.UpdateView):
             self.object.status = "active"
             self.object.assigned_time = timezone.now().time()
             self.object.assigned_date = timezone.now().date()
+
         return super().form_valid(form)
 
 

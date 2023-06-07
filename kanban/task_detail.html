@@ -1,0 +1,30 @@
+{% extends "kanban/base.html" %}
+
+{% block content %}
+    <h2 class="task-title">{{ task.name }}</h2>
+    <p>принадлежит доске: <a href="{% url 'kanban:kanban_detail' pk=task.kanban.pk %}">{{ task.kanban.name }}</a></p>
+    <p>статус: {{ task.get_status_display }}</p>
+    
+    <p>создана: {{ task.created_date }} в {{ task.created_time }}</p>
+
+    {% if task.assigned_date %}
+    <p>назначена: {{ task.assigned_date }} в {{ task.assigned_time }} пользователю {{ task.executor }}
+    <p>дедлайн: {{ task.deadline_date }} в {{ task.deadline_time }}</p>
+    {% endif %}
+
+    {% if task.completed_date %}
+    <p>завершена: {{ task.completed_date }} в {{ task.completed_time }}</p>
+    {% endif %}
+
+    <p>описание: {{ task.description }}</p>
+    {% if request.user == task.kanban.owner %}
+        <p><a href="{% url 'kanban:task_delete' pk=task.pk %}">удалить эту задачу</a></p>
+        {% if not task.executor %}
+            <p><a href="{% url 'kanban:task_activate' pk=task.pk %}">назначить эту задачу</a></p>
+        {% else %}
+        <p><a href="{% url 'kanban:task_activate' pk=task.pk %}">переназначить эту задачу</a></p>
+        {% endif %}
+        <a href="{% url 'kanban:kanban_detail' pk=task.kanban.pk %}">вернуться на доску</a>
+    {% endif %}
+
+{% endblock %}
