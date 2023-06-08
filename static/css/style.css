@@ -84,3 +84,8 @@
     text-decoration: none;
     border-bottom: 1px solid #fff;
 }
+
+.errorlist {
+    list-style-type: none;
+    color: #C70039;
+}

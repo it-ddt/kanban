@@ -72,8 +72,12 @@ class KanbanCreateView(LoginRequiredMixin, generic.CreateView):
     login_url = reverse_lazy("kanban:user_login")
 
     def form_valid(self, form):
-        instance = form.instance
-        instance.owner = self.request.user
+        user = self.request.user
+        kanban_count = Kanban.objects.filter(owner=user).count()
+        if kanban_count >= 10:
+            form.add_error(None, "Нельзя создать больше 10 досок!")
+            return self.form_invalid(form)
+        form.instance.owner = user
         return super().form_valid(form)
 
     def get_success_url(self):
@@ -130,11 +134,24 @@ class TaskCreateView(LoginRequiredMixin, UserPassesTestMixin, generic.CreateView
         )
 
     def form_valid(self, form):
-        form.instance.kanban = Kanban.objects.get(id=self.kwargs['pk'])
+        kanban_id = self.kwargs['pk']
+        kanban = get_object_or_404(Kanban, pk=kanban_id)
+        task_count = Task.objects.filter(kanban=kanban).count()
+
+        if kanban.tasks.filter(name=form.cleaned_data['name']).exists():
+            form.add_error(None, 'Здадча с таким названием уже есть в этой доске!')
+            return self.form_invalid(form)
+        
+        if task_count >= 100:
+            form.add_error(None, "В одной доске нельзя создать больше 100 задач!")
+            return self.form_invalid(form)
+        
+        form.instance.creator = self.request.user
+        form.instance.kanban = kanban
         return super().form_valid(form)
 
 
-class TaskDetailView(LoginRequiredMixin, generic.DetailView):  # TODO: запретить просмотр, если я не owner
+class TaskDetailView(LoginRequiredMixin, generic.DetailView):
     model = Task
     context_object_name = "task"
     template_name = "kanban/task_detail.html"
@@ -179,18 +196,18 @@ class TaskActivateView(LoginRequiredMixin, generic.UpdateView):
             deadline_datetime = timezone.make_aware(deadline_datetime)
 
             if deadline_datetime < current_datetime:
-                form.add_error("deadline_date", "Дедлайн не может быть раньше, чем текущая дата и время!")
+                form.add_error(None, "Дедлайн не может быть раньше, чем текущая дата и время!")
                 return super().form_invalid(form)
         
         if self.object.status == "new":
             if not form.cleaned_data["executor"]:
-                form.add_error("executor", "Назначьте исполнителя!")
+                form.add_error(None, "Назначьте исполнителя!")
                 return super().form_invalid(form)
             if not form.cleaned_data["deadline_date"]:
-                form.add_error("deadline_date", "Назначьте дату дедлайна!")
+                form.add_error(None, "Назначьте дату дедлайна!")
                 return super().form_invalid(form)
             if not form.cleaned_data["deadline_time"]:
-                form.add_error("deadline_time", "Назначьте время дедлайна!")
+                form.add_error(None, "Назначьте время дедлайна!")
                 return super().form_invalid(form)
             self.object.status = "active"
             self.object.assigned_time = timezone.now().time()

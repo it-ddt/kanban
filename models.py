@@ -31,11 +31,7 @@ class Task(models.Model):
 
     name = models.CharField(
         max_length=100,
-        verbose_name="название",
-        unique=True,
-        error_messages={
-            'unique': "Задача с таким названием уже существует."
-        }
+        verbose_name="название"
     )
     description = models.TextField(verbose_name="описание")
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default="new", verbose_name="статус")
