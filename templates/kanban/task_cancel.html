@@ -1,0 +1,9 @@
+{% extends "kanban/base.html" %}
+
+{% block content %}
+    <form action="" method="POST">
+        {% csrf_token %}
+        <p>Задача {{ object.name }} назначена пользователю {{ object.executor.username }}. Отменить назначение?</p>
+        <input type="submit" value="отменить назначенную задачу">
+    </form>
+{% endblock %}

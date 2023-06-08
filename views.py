@@ -176,7 +176,7 @@ class TaskDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.DeleteView
         )
 
 
-class TaskActivateView(LoginRequiredMixin, generic.UpdateView):
+class TaskActivateView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateView):
     model = Task
     template_name = "kanban/task_activate.html"
     fields = ["executor", "deadline_date", "deadline_time"]
@@ -186,6 +186,14 @@ class TaskActivateView(LoginRequiredMixin, generic.UpdateView):
             "kanban:kanban_detail",
             kwargs={'pk': self.object.kanban.pk}
         )
+    
+    def test_func(self):
+        task = self.get_object()
+        kanban = task.kanban
+        return kanban.owner == self.request.user
+    
+    def handle_no_permission(self):
+        return render(self.request, "kanban/403.html")
 
     def form_valid(self, form):
         task = form.instance
@@ -216,10 +224,18 @@ class TaskActivateView(LoginRequiredMixin, generic.UpdateView):
         return super().form_valid(form)
 
 
-class TaskCompleteView(LoginRequiredMixin, generic.UpdateView):
+class TaskCompleteView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateView):
     model = Task
     template_name = "kanban/task_complete.html"
     fields = []
+
+    def test_func(self):
+        task = self.get_object()
+        kanban = task.kanban
+        return kanban.owner == self.request.user
+    
+    def handle_no_permission(self):
+        return render(self.request, "kanban/403.html")
 
     def get_success_url(self):
         return reverse_lazy(
@@ -233,3 +249,34 @@ class TaskCompleteView(LoginRequiredMixin, generic.UpdateView):
             self.object.completed_time = timezone.now().time()
             self.object.completed_date = timezone.now().date()
         return super().form_valid(form)
+
+
+class TaskCancelView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateView):
+    model = Task
+    template_name = "kanban/task_cancel.html"
+    fields = []
+
+    def test_func(self):
+        task = self.get_object()
+        kanban = task.kanban
+        return kanban.owner == self.request.user
+    
+    def handle_no_permission(self):
+        return render(self.request, "kanban/403.html")
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return queryset.filter(executor=self.request.user)
+
+    def form_valid(self, form):
+        form.instance.status = "new"
+        form.instance.executor = None
+        form.instance.deadline_date = None
+        form.instance.deadline_time = None
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy(
+            "kanban:kanban_detail",
+            kwargs={'pk': self.object.kanban.pk}
+        )

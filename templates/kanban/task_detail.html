@@ -23,6 +23,7 @@
             <p><a href="{% url 'kanban:task_activate' pk=task.pk %}">назначить эту задачу</a></p>
         {% else %}
         <p><a href="{% url 'kanban:task_activate' pk=task.pk %}">переназначить эту задачу</a></p>
+        <p><a href="{% url 'kanban:task_cancel' pk=task.pk %}">отменить эту задачу</a></p>
         {% endif %}
         <a href="{% url 'kanban:kanban_detail' pk=task.kanban.pk %}">вернуться на доску</a>
     {% endif %}
