@@ -3,10 +3,11 @@
 {% block content %}
     <div class="main-item">
     {% if login_required %}
-        <a href="{% url 'kanban:user_login' %}">Войдите</a> или 
-        <a href="{% url 'kanban:user_register' %}">зарегистрируйтесь</a>
-        чтобы увидеть здесь свои доски.
-    </li>
+        <div class="login_required">
+            <a class="link" href="{% url 'kanban:user_login' %}">войдите</a> или 
+            <a class="link" href="{% url 'kanban:user_register' %}">зарегистрируйтесь</a>
+            чтобы увидеть здесь свои доски.
+        </div>
     {% else %}
 
         {% if my_kanbans %}
@@ -36,7 +37,7 @@
         {% endif %}
 
         {% if user.is_authenticated %}
-            <a href="{% url 'kanban:kanban_create' %}">создать доску</a>
+            <a class="button-link" href="{% url 'kanban:kanban_create' %}">создать доску</a>
         {% endif %}
     
     {% endif %} 

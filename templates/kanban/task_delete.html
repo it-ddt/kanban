@@ -1,9 +1,15 @@
 {% extends "kanban/base.html" %}
 
 {% block content %}
-    <form action="" method="POST">
-        {% csrf_token %}
-        <p>Удалить задачу {{ object }}?</p>
-        <input type="submit" value="удалить задачу">
-    </form>
+    <div class="main-item">
+        <h2>Удалить задачу</h2>
+        <form class="task-form" action="" method="POST">
+            {% csrf_token %}
+            <p>Удалить задачу {{ object }}?</p>
+            <input class="form-button button--red" type="submit" value="удалить задачу">
+        </form>
+        <p>
+            <a class="link-button" href="{% url 'kanban:kanban_detail' pk=task.kanban.pk %}">вернуться на доску</a>
+        </p>
+    </div>
 {% endblock %}

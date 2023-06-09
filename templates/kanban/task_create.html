@@ -1,9 +1,15 @@
 {% extends "kanban/base.html" %}
 
 {% block content %}
-    <form action="" method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="создать задачу">
-    </form>
+    <div class="main-item">
+        <form class="task-form" action="" method="POST">
+            <h2>Добавить задачу</h2>
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input class="form-button" type="submit" value="добавить задачу">
+        </form>
+        <p>
+            <a class="link-button" href="{% url 'kanban:index' %}">на главную</a>
+        </p>
+    </div>
 {% endblock %}

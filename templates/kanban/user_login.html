@@ -1,9 +1,12 @@
 {% extends "kanban/base.html" %}
 
 {% block content %}
-<form action="" method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit">
-</form>
+<div class="main-item">
+    <h2>Войти</h2>
+    <form class="task-form" action="" method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input class="form-button" type="submit" value="войти">
+    </form>
+</div>
 {% endblock %}

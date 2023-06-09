@@ -7,6 +7,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Канбан</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=PT+Sans:wght@700&family=PT+Serif&display=swap" rel="stylesheet">
     <link rel="shortcut icon" type="image/png" href="{% static 'img/favicon.ico' %}"/>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
@@ -33,14 +36,11 @@
 
             <div class="logo-container">
                 <a class="logo-item" href="{% url 'kanban:index' %}">
-                    <img class="logo-img" src="{% static 'img/logo.png' %}" alt="Кабан!">
-                </a>
-                <a class="logo-item" href="{% url 'kanban:index' %}">
-                    <span class="logo-text">Рабочее название</span>
+                    <span class="logo-text">Кабанка</span>
                 </a>
             </div>
 
-            <div class="user_container">
+            <div class="user-container">
                 <ul class="header-list">
                     {% if user.is_authenticated %}
                     <li class="header-list-item">
