@@ -231,3 +231,41 @@ h3 {
     list-style-type: none;
     color: #C70039;
 }
+
+.image--responsive {
+    max-width: 100%;
+    height: auto;
+}
+
+.about-section {
+    margin-bottom: 40px;
+}
+
+.team-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 30px;
+}
+
+.team-item {
+    text-align: center;
+}
+
+.team_photo {
+    border-radius: 50%;
+    width: 300px;
+}
+
+.section-heading {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.about-section {
+    max-width: 900px;
+}
+
+.social {
+    width: 20px;
+    height: auto;
+}

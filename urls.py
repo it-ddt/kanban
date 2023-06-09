@@ -13,6 +13,7 @@ from .views import (
     LoginView,
     LogoutView,
     SignUpView,
+    about
 )
 
 app_name = "kanban"
@@ -31,4 +32,5 @@ urlpatterns = [
     path("user_login", LoginView.as_view(), name="user_login"),
     path("user_logout", LogoutView.as_view(), name="user_logout"),
     path("user_register", SignUpView.as_view(), name="user_register"),
+    path("about", about, name="about"),
 ]

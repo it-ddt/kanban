@@ -5,7 +5,7 @@ detail для Task
 просрочка Task
 выгрузка на сервер
 """
-from __future__ import annotations
+
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
 from django.views import generic
@@ -280,3 +280,7 @@ class TaskCancelView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateView
             "kanban:kanban_detail",
             kwargs={'pk': self.object.kanban.pk}
         )
+
+
+def about(request):
+    return render(request, 'kanban/about.html')
