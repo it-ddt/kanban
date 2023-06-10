@@ -49,7 +49,7 @@ h3 {
     justify-content: space-between;
     align-items: center;
     background-repeat: repeat-x;
-    background-size: cover;
+    background-size: auto 100%;
 }
 
 .header-container > *{
@@ -241,6 +241,8 @@ h3 {
     gap: 15px;
     justify-content: space-between;
     align-items: center;
+    background-repeat: repeat-x;
+    background-size: auto 100%;
 }
 
 .footer-link {
