@@ -122,6 +122,16 @@ h3 {
     margin-bottom: 15px;
 }
 
+.kanbans-item:not(:last-child) {
+    margin-bottom: 5px;
+}
+
+.kanbans-link {
+    text-decoration: none;
+    color: hsla(9, 62%, 10%, 1);
+    border-bottom: 1px solid hsla(9, 62%, 10%, 1);
+}
+
 .kanban-owner {
     margin-bottom: 20px;
 }

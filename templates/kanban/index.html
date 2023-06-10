@@ -4,34 +4,36 @@
     <div class="main-item">
     {% if login_required %}
         <div class="login_required">
-            <a class="link" href="{% url 'kanban:user_login' %}">войдите</a> или 
-            <a class="link" href="{% url 'kanban:user_register' %}">зарегистрируйтесь</a>
+            <h2 class="kanbans-title">Вы кто?</h2>
+            <a class="kanbans-link" href="{% url 'kanban:user_login' %}">войдите</a> или 
+            <a class="kanbans-link" href="{% url 'kanban:user_register' %}">зарегистрируйтесь</a>
             чтобы увидеть здесь свои доски.
         </div>
     {% else %}
-
         {% if my_kanbans %}
-        <section class="kanbans-section">
-            <h2 class="kanbans-title">мои доски</h2>
-            <ul class="kanbans-list">
-                {% for kanban in my_kanbans %}
-                <li class="kanbans-item">
-                    <a class="kanbans-link" href="{% url 'kanban:kanban_detail' kanban.id %}">{{ kanban.name }}</a>
-                </li>
-                {% endfor %}
-            </ul>
-        </section>
+            <section class="kanbans-section">
+                <h2 class="kanbans-title">мои доски</h2>
+                <ul class="kanbans-list">
+                    {% for kanban in my_kanbans %}
+                    <li class="kanbans-item">
+                        <a class="kanbans-link" href="{% url 'kanban:kanban_detail' kanban.id %}">{{ kanban.name }}</a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </section>
         {% else %}
-        <p>Вы пока не создали досок.</p>
+            <p>Вы пока не создали досок.</p>
         {% endif %}
 
         {% if partner_kanbans %}
         <section class="kanbans-section">
             <h2 class="kanbans-title">доски с задачами для меня</h2>
             <ul class="kanbans-list">
-                {% for kanban in partner_kanbans %}
-                <li class="kanbans-item"><a href="{% url 'kanban:kanban_detail' kanban.id %}">{{ kanban.name }}</a></li>
-                {% endfor %}
+            {% for kanban in partner_kanbans %}
+                <li class="kanbans-item">
+                    <a class="kanbans-link" href="{% url 'kanban:kanban_detail' kanban.id %}">{{ kanban.name }}</a>
+                </li>
+            {% endfor %}
             </ul>
         </section>
         {% endif %}
