@@ -28,9 +28,11 @@
                         <a class="header-link" href="{% url 'kanban:about' %}">о проекте</a>
                     </li>
                     {% if user.is_authenticated %}
-                    <li class="header-list-item">
-                        <a class="header-link" href="{% url 'admin:index' %}">админка</a>
-                    </li>
+                        {% if user.is_staff %}
+                            <li class="header-list-item">
+                                <a class="header-link" href="{% url 'admin:index' %}">админка</a>
+                            </li>
+                        {% endif %}
                     {% endif %}
                     <li class="header-list-item">
                         <a class="header-link" href="{% url 'kanban:help' %}">помощь</a>
