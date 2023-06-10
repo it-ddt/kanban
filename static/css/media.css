@@ -1,0 +1,36 @@
+@media (max-width: 960px) {
+    .header-container {
+        flex-direction: column;
+    }
+
+    .nav-container {
+        order: 2;
+    }
+
+    .nav-list {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .logo-container {
+        order: 1;
+    }
+
+    .user-container {
+        order: 3;
+    }
+    
+    .tasks-container {
+        grid-template-columns: 1fr;
+        
+    }
+
+    .page-controls {
+        flex-direction: column;
+    }
+
+    .team-container {
+        grid-template-columns: 1fr;
+    }
+}

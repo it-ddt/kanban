@@ -12,6 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=PT+Sans:wght@700&family=PT+Serif&display=swap" rel="stylesheet">
     <link rel="shortcut icon" type="image/png" href="{% static 'img/favicon.ico' %}"/>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/media.css' %}">
 </head>
 <body style="background-image: url('{% static "img/bg.jpg" %}');">
 
@@ -19,7 +20,7 @@
         <header class="header-container">
 
             <nav class="nav-container">
-                <ul class="header-list">
+                <ul class="header-list nav-list">
                     <li class="header-list-item">
                         <a class="header-link" href="{% url 'kanban:index' %}">главная страница</a>
                     </li>
