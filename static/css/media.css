@@ -20,6 +20,10 @@
     .user-container {
         order: 3;
     }
+
+    .index-container {
+        flex-direction: column;
+    }
     
     .tasks-container {
         grid-template-columns: 1fr;
