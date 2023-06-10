@@ -2,11 +2,13 @@
 {% load static %}
 {% block content %}
 
-    <section>
-        <h2>Помощь</h2>
-    </section>
 
-    <a class="link-button" href="{% url 'kanban:index' %}">на главную</a>
+        <section class="video-section">
+            <h2 class="section-heading">Помощь</h2>
+            <iframe class="youtube-video" src="https://www.youtube.com/embed/PWIYdy2OXRg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        </section>
 
+        <a class="link-button" href="{% url 'kanban:index' %}">на главную</a>
+    
 
 {% endblock %}
