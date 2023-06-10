@@ -25,19 +25,23 @@
 
         <div class="page-controls">
         {% if request.user == task.kanban.owner %}
-            {% if task.status != "completed"%}
-                {% if task.owner %}
-                    <a class="link-button button--yellow" href="{% url 'kanban:task_activate' pk=task.pk %}">переназначить эту задачу</a>
-                {% else %}
-                    <a class="link-button button--yellow" href="{% url 'kanban:task_activate' pk=task.pk %}">назначить эту задачу</a>
-                {% endif %}
-                {% if task.status == "active" %}
-                    <a class="link-button" href="{% url 'kanban:task_cancel' pk=task.pk %}">отменить эту задачу</a>
-                {% endif %}
+            {% if task.status == "new"%}
+                <a class="link-button button--yellow" href="{% url 'kanban:task_activate' pk=task.pk %}">назначить&nbsp;задачу</a>
             {% endif %}
-            <a class="link-button button--red" href="{% url 'kanban:task_delete' pk=task.pk %}">удалить эту задачу</a>
+
+            {% if task.status == "active"%}
+                <a class="link-button button--green" href="{% url 'kanban:task_complete' pk=task.pk %}">завершить&nbsp;задачу</a>
+                <a class="link-button" href="{% url 'kanban:task_cancel' pk=task.pk %}">отменить&nbsp;задачу</a>
+            {% endif %}
+
+            {% if task.status == "overdue"%}
+                <a class="link-button" href="{% url 'kanban:task_cancel' pk=task.pk %}">отменить&nbsp;задачу</a>
+            {% endif %}
+
+            <a class="link-button button--red" href="{% url 'kanban:task_delete' pk=task.pk %}">удалить&nbsp;задачу</a>
+
         {% endif %}
-        <a class="link-button" href="{% url 'kanban:kanban_detail' pk=task.kanban.pk %}">вернуться на доску</a>
+        <a class="link-button" href="{% url 'kanban:kanban_detail' pk=task.kanban.pk %}">вернуться&nbsp;на&nbsp;доску</a>
         </div>
     </div>
 
