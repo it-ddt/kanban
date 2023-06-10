@@ -13,7 +13,7 @@
     <link rel="shortcut icon" type="image/png" href="{% static 'img/favicon.ico' %}"/>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
-<body>
+<body style="background-image: url('{% static "img/bg.jpg" %}');">
 
     <div class="page_container">
         <header class="header-container">
@@ -61,7 +61,7 @@
             </div>
         </header>
         
-        <main class="main-container" style="background-image: url('{% static "img/bg.jpg" %}');">
+        <main class="main-container">
             {% block content %}{% endblock %}
         </main>
 
