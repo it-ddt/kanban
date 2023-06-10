@@ -48,6 +48,8 @@ h3 {
     gap: 15px;
     justify-content: space-between;
     align-items: center;
+    background-repeat: repeat-x;
+    background-size: cover;
 }
 
 .header-container > *{

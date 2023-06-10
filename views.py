@@ -290,10 +290,6 @@ def about(request):
     return render(request, 'kanban/about.html')
 
 
-def tasks_overdue(request):
-    return render(request, 'kanban/about.html')
-
-
 @csrf_exempt
 def tasks_overdue(request):
     current_datetime = timezone.localtime(timezone.now())
@@ -311,3 +307,7 @@ def tasks_overdue(request):
         task.save()
 
     return HttpResponse('Задачи с подошедшим делайном получили статус "overdue"')
+
+
+def help(request):
+    return render(request, 'kanban/help.html')
