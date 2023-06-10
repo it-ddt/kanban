@@ -19,7 +19,7 @@
                     </p>
                     {% if object.owner == user %}
                     <div class="task-controls">
-                        <a class="task-controls-link" href="{% url 'kanban:task_detail' task.id %}">к&nbsp;задаче</a>
+                        <a class="task-controls-link button--grey" href="{% url 'kanban:task_detail' task.id %}">к&nbsp;задаче</a>
                         <a class="task-controls-link button--yellow" href="{% url 'kanban:task_activate' task.id %}">назначить</a>
                         <a class="task-controls-link button--red" href="{% url 'kanban:task_delete' task.id %}">удалить</a>
                     </div>
@@ -28,7 +28,7 @@
             {% empty %}
                 <li>нет новых задач</li>
                 {% if object.owner == user %}
-                    <a class="task-controls-link" href="{% url 'kanban:task_create' kanban.id %}">добавить задачу</a>
+                    <a class="task-controls-link button--grey" href="{% url 'kanban:task_create' kanban.id %}">добавить задачу</a>
                 {% endif %}    
             {% endfor %}
             </ol>
@@ -50,8 +50,8 @@
                     </p>
                     {% if object.owner == user %}
                         <div class="task-controls">
-                            <a class="task-controls-link" href="{% url 'kanban:task_detail' task.id %}">к&nbsp;задаче</a>
-                            <a class="task-controls-link button-green" href="{% url 'kanban:task_complete' task.id %}">завершить</a>
+                            <a class="task-controls-link button--grey" href="{% url 'kanban:task_detail' task.id %}">к&nbsp;задаче</a>
+                            <a class="task-controls-link button--green" href="{% url 'kanban:task_complete' task.id %}">завершить</a>
                             <a class="task-controls-link button--red" href="{% url 'kanban:task_delete' task.id %}">удалить</a>
                         </div>
                     {% endif %}
@@ -77,7 +77,7 @@
                     </p>
                     {% if object.owner == user %}
                     <div class="task-controls">
-                        <a class="task-controls-link" href="{% url 'kanban:task_detail' task.id %}">к&nbsp;задаче</a>
+                        <a class="task-controls-link button--grey" href="{% url 'kanban:task_detail' task.id %}">к&nbsp;задаче</a>
                         <a class="task-controls-link button--red" href="{% url 'kanban:task_delete' task.id %}">удалить</a>
                     </div>
                     {% endif %}
@@ -103,7 +103,7 @@
                 </p>
                 {% if object.owner == user %}
                 <div class="task-controls">
-                    <a class="task-controls-link" href="{% url 'kanban:task_detail' task.id %}">к&nbsp;задаче</a>
+                    <a class="task-controls-link button--grey" href="{% url 'kanban:task_detail' task.id %}">к&nbsp;задаче</a>
                     <a class="task-controls-link button--red" href="{% url 'kanban:task_delete' task.id %}">удалить</a>
                 </div>
                 {% endif %}

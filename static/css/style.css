@@ -41,9 +41,8 @@ h3 {
 }
 
 .header-container {
-    padding: 20px 30px;
-    background-color: hsla(0, 0%, 0%, 0.7);
     color: #fff;
+    padding: 5px 15px 10px;
     display: flex;
     gap: 15px;
     justify-content: space-between;
@@ -65,8 +64,8 @@ h3 {
 
 .header-link {
     color: #fff;
-    text-decoration: none;
     border-bottom: 1px solid #fff;
+    text-decoration: none;
 }
 
 .logo-img {
@@ -143,7 +142,6 @@ h3 {
 }
 
 .tasks-item {
-    border: 1px solid #000;
     padding: 15px;
 }
 
@@ -171,9 +169,8 @@ h3 {
 
 .task-controls-link {
     color: #000;
-    background-color:  hsla(0, 0%, 80%, 0.8);
-    border: 1px solid #000;
-    padding: 0 5px;
+    background-color: hsla(0, 0%, 80%, 0.8);
+    padding: 5px 15px;
     text-decoration: none;
     align-self: flex-start;
 }
@@ -190,7 +187,6 @@ h3 {
 }
 
 .form-button {
-    border: 1px solid #000;
     background-color: hsla(0, 0%, 80%, 0.8);
     padding: 5px 25px;
     align-self: flex-start;
@@ -198,44 +194,50 @@ h3 {
 
 .link-button {
     color: #000;
-    background-color:  hsla(0, 0%, 80%, 0.8);
-    border: 1px solid #000;
+    background-color:  hsla(0, 0%, 80%, 1);
     padding: 5px 25px;
     text-decoration: none;
     text-align: center;
 }
 
+.button--grey {
+    background-color: hsla(0, 0%, 80%, 1);
+}
+
 .button--yellow {
-    background-color: hsla(48, 100%, 80%, 0.8);
+    background-color: hsla(48, 100%, 80%, 1);
 }
 
 .button--red {
-    background-color: hsla(0, 100%, 60%, 0.8);
+    background-color: hsla(0, 80%, 70%, 1);
 }
 
 .button--green {
-    background-color: hsla(145, 100%, 80%, 0.8);
+    background-color: hsla(145, 61%, 80%, 1);
 }
 
 .task-new {
-    background-color: hsla(0, 0%, 100%, 0.7);
+    background-color: hsla(0, 0%, 100%, 0.6);
 }
 
 .task-active {
-    background-color: hsla(48, 89%, 80%, 0.7);
+    background-color: hsla(48, 89%, 80%, 0.6);
 }
 
 .task-completed {
-    background-color: hsla(145, 61%, 80%, 0.7);
+    background-color: hsla(145, 61%, 80%, 0.6);
 }
 
 .task-overdue {
-    background-color: hsla(6, 78%, 83%, 0.7);
+    background-color: hsla(6, 78%, 83%, 0.6);
+}
+
+.header-container, .footer-container {
+    background-color: hsla(9, 62%, 36%, 0.8);
 }
 
 .footer-container {
-    padding: 20px 30px;
-    background-color: hsla(0, 0%, 0%, 0.7);
+    padding: 10px 15px 10px;
     color: #fff;
     display: flex;
     gap: 15px;
