@@ -277,7 +277,7 @@ class TaskCancelView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateView
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        return queryset.filter(executor=self.request.user)
+        return queryset.filter(kanban__owner=self.request.user)
 
     def form_valid(self, form):
         form.instance.status = "new"

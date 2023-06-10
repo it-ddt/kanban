@@ -1,9 +1,13 @@
 {% extends "kanban/base.html" %}
 
 {% block content %}
-    <form action="" method="POST">
-        {% csrf_token %}
-        <p>Задача {{ object.name }} назначена пользователю {{ object.executor.username }}. Отменить назначение?</p>
-        <input type="submit" value="отменить назначенную задачу">
-    </form>
+    <div class="main-item">
+        <h2>Отменить задачу</h2>
+        <form class="task-form" action="" method="POST">
+            {% csrf_token %}
+            <p>Отменить {{ object.name }} для {{ object.executor.username }}?<br>Задача вернется в новые</p>
+            <input class="form-button" type="submit" value="отменить задачу">
+        </form>
+        <p><a class="link-button" href="{% url 'kanban:kanban_detail' pk=task.kanban.pk %}">вернуться на доску</a></p>
+    </div>
 {% endblock %}
