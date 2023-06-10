@@ -6,11 +6,7 @@ from django.contrib.auth.models import User
 class Kanban(models.Model):
     name = models.CharField(
         max_length=100,
-        unique=True,
         verbose_name="название",
-        error_messages={
-            'unique': "Доска с таким названием уже существует."
-        }
     )
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
 

@@ -77,10 +77,17 @@ class KanbanCreateView(LoginRequiredMixin, generic.CreateView):
 
     def form_valid(self, form):
         user = self.request.user
+        name = form.cleaned_data['name']
         kanban_count = Kanban.objects.filter(owner=user).count()
+
+        if Kanban.objects.filter(owner=user, name=name).exists():
+            form.add_error(None, "У вас уже есть доска стаким именем! Подберите другое.")
+            return self.form_invalid(form)
+        
         if kanban_count >= 10:
             form.add_error(None, "Нельзя создать больше 10 досок!")
             return self.form_invalid(form)
+        
         form.instance.owner = user
         return super().form_valid(form)
 
