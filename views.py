@@ -6,12 +6,16 @@ detail для Task
 выгрузка на сервер
 """
 
+from django.http import HttpResponse
+from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
+from datetime import date, time
 from django.views import generic
 from django.urls import reverse_lazy, reverse
 from django.contrib.auth import views, authenticate, login
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.db.models import Q
 from .models import Kanban, Task
 from .forms import SignUpForm
 
@@ -284,3 +288,26 @@ class TaskCancelView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateView
 
 def about(request):
     return render(request, 'kanban/about.html')
+
+
+def tasks_overdue(request):
+    return render(request, 'kanban/about.html')
+
+
+@csrf_exempt
+def tasks_overdue(request):
+    current_datetime = timezone.localtime(timezone.now())
+    current_date = current_datetime.date()
+    current_time = current_datetime.time()
+
+    overdue_tasks = Task.objects.filter(
+        Q(status='active', deadline_date__lt=current_date, deadline_time__isnull=True) |
+        Q(status='active', deadline_date__lt=current_date, deadline_time__lt=current_time) |
+        Q(status='active', deadline_date=current_date, deadline_time__lt=current_time)
+    )
+
+    for task in overdue_tasks:
+        task.status = 'overdue'
+        task.save()
+
+    return HttpResponse('Задачи с подошедшим делайном получили статус "overdue"')
