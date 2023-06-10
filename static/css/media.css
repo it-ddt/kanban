@@ -23,7 +23,15 @@
     
     .tasks-container {
         grid-template-columns: 1fr;
-        
+    }
+
+    .tasks-list li:not(:last-child) {
+        margin-bottom: 30px;
+    }
+
+    .task-controls {
+        flex-direction: column;
+        margin-bottom: 10px;
     }
 
     .page-controls {
@@ -32,5 +40,9 @@
 
     .team-container {
         grid-template-columns: 1fr;
+    }
+
+    .kanbans-item {
+        margin-bottom: 10px;
     }
 }

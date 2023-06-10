@@ -11,19 +11,19 @@
             {% for task in tasks_new %}
                 <li>
                     <h4>{{ task.name }}</h4>
-                    {% if object.owner == user %}
-                    <div class="task-controls">
-                        <a href="{% url 'kanban:task_detail' task.id %}">к задаче</a>
-                        <a href="{% url 'kanban:task_activate' task.id %}">назначить</a>
-                        <a href="{% url 'kanban:task_delete' task.id %}">удалить</a>
-                    </div>
-                    {% endif %}
                     <p class="task-info">
                         <strong>создано:</strong> {{ task.created_date }} в {{ task.created_time }}
                     </p>
                     <p class="task-description">
                         <strong>описание: </strong>{{ task.description|truncatechars:100 }}
                     </p>
+                    {% if object.owner == user %}
+                    <div class="task-controls">
+                        <a class="task-controls-link" href="{% url 'kanban:task_detail' task.id %}">к&nbsp;задаче</a>
+                        <a class="task-controls-link button--yellow" href="{% url 'kanban:task_activate' task.id %}">назначить</a>
+                        <a class="task-controls-link button--red" href="{% url 'kanban:task_delete' task.id %}">удалить</a>
+                    </div>
+                    {% endif %}
                 </li>
             {% empty %}
                 <li>нет новых задач</li>
@@ -37,13 +37,6 @@
             {% for task in tasks_active %}
                 <li>
                     <h4>{{ task.name }}</h4>
-                    {% if object.owner == user %}
-                        <div class="task-controls">
-                            <a href="{% url 'kanban:task_detail' task.id %}">к задаче</a>
-                            <a href="{% url 'kanban:task_complete' task.id %}">завершить</a>
-                            <a href="{% url 'kanban:task_delete' task.id %}">удалить</a>
-                        </div>
-                    {% endif %}
                     <p class="task-info">
                         <strong>исполнитель:</strong> {{ task.executor }}<br>
                         <strong>назначено:</strong> {{ task.assigned_date }} в {{ task.assigned_time }}<br>
@@ -52,6 +45,13 @@
                     <p class="task-description">
                         <strong>описание:</strong> {{ task.description|truncatechars:100 }}
                     </p>
+                    {% if object.owner == user %}
+                        <div class="task-controls">
+                            <a class="task-controls-link" href="{% url 'kanban:task_detail' task.id %}">к&nbsp;задаче</a>
+                            <a class="task-controls-link button-green" href="{% url 'kanban:task_complete' task.id %}">завершить</a>
+                            <a class="task-controls-link button--red" href="{% url 'kanban:task_delete' task.id %}">удалить</a>
+                        </div>
+                    {% endif %}
                 </li>
             {% empty %}
                 <li>нет активных задач</li>
@@ -65,12 +65,6 @@
             {% for task in tasks_completed %}
                 <li>
                     <h4>{{ task.name }}</h4>
-                    {% if object.owner == user %}
-                    <div class="task-controls">
-                        <a href="{% url 'kanban:task_detail' task.id %}">к задаче</a>
-                        <a href="{% url 'kanban:task_delete' task.id %}">удалить</a>
-                    </div>
-                    {% endif %}
                     <p class="task-info">
                         <strong>исполнитель:</strong> {{ task.executor }}<br>
                         <strong>завершено:</strong> {{ task.completed_date }} в {{ task.completed_time }}
@@ -78,6 +72,12 @@
                     <p class="task-description">
                         {{ task.description|truncatechars:100 }}
                     </p>
+                    {% if object.owner == user %}
+                    <div class="task-controls">
+                        <a class="task-controls-link" href="{% url 'kanban:task_detail' task.id %}">к&nbsp;задаче</a>
+                        <a class="task-controls-link button--red" href="{% url 'kanban:task_delete' task.id %}">удалить</a>
+                    </div>
+                    {% endif %}
                 </li>
             {% empty %}
                 <li>нет готовых задач</li>
@@ -91,12 +91,6 @@
             {% for task in tasks_overdue %}
             <li>
                 <h4>{{ task.name }}</h4>
-                {% if object.owner == user %}
-                <div class="task-controls">
-                    <a href="{% url 'kanban:task_detail' task.id %}">к задаче</a>
-                    <a href="{% url 'kanban:task_delete' task.id %}">удалить</a>
-                </div>
-                {% endif %}
                 <p class="task-info">
                     <strong>исполнитель:</strong> {{ task.executor }}<br>
                     <strong>дедлайн:</strong> {{ task.deadline_date }} в {{ task.deadline_time }}
@@ -104,6 +98,12 @@
                 <p class="task-description">
                     {{ task.description|truncatechars:100 }}
                 </p>
+                {% if object.owner == user %}
+                <div class="task-controls">
+                    <a class="task-controls-link" href="{% url 'kanban:task_detail' task.id %}">к&nbsp;задаче</a>
+                    <a class="task-controls-link button--red" href="{% url 'kanban:task_delete' task.id %}">удалить</a>
+                </div>
+                {% endif %}
             </li>
             {% empty %}
                 <li>нет просроченных задач</li>
