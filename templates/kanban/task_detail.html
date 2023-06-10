@@ -31,7 +31,7 @@
                 {% else %}
                     <a class="link-button button--yellow" href="{% url 'kanban:task_activate' pk=task.pk %}">назначить эту задачу</a>
                 {% endif %}
-                {% if tsak.status == "active" %}
+                {% if task.status == "active" %}
                     <a class="link-button" href="{% url 'kanban:task_cancel' pk=task.pk %}">отменить эту задачу</a>
                 {% endif %}
             {% endif %}
