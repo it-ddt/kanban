@@ -159,6 +159,8 @@ class TaskCreateView(LoginRequiredMixin, UserPassesTestMixin, generic.CreateView
         
         form.instance.creator = self.request.user
         form.instance.kanban = kanban
+        form.instance.created_time = timezone.localtime()
+        form.instance.created_date = timezone.localtime().date()
         return super().form_valid(form)
 
 
@@ -229,8 +231,8 @@ class TaskActivateView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateVi
                 form.add_error(None, "Назначьте время дедлайна!")
                 return super().form_invalid(form)
             self.object.status = "active"
-            self.object.assigned_time = timezone.now().time()
-            self.object.assigned_date = timezone.now().date()
+            self.object.assigned_time = timezone.localtime()
+            self.object.assigned_date = timezone.localtime().date()
 
         return super().form_valid(form)
 
@@ -257,8 +259,8 @@ class TaskCompleteView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateVi
     def form_valid(self, form):
         if self.object.status == "active":
             self.object.status = "completed"
-            self.object.completed_time = timezone.now().time()
-            self.object.completed_date = timezone.now().date()
+            self.object.completed_time = timezone.localtime()
+            self.object.completed_date = timezone.localtime().date()
         return super().form_valid(form)
 
 
