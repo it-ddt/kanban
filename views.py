@@ -94,7 +94,7 @@ class KanbanDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.DeleteVi
     def handle_no_permission(self):
         return render(self.request, "kanban/403.html")
 
-    def test_func(self) -> bool | None:
+    def test_func(self):
         kanban = get_object_or_404(Kanban, pk=self.kwargs.get("pk"))
         return kanban.owner == self.request.user
 
@@ -120,7 +120,7 @@ class TaskCreateView(LoginRequiredMixin, UserPassesTestMixin, generic.CreateView
     fields = ["name", "description"]
     login_url = reverse_lazy("kanban:user_login")
 
-    def test_func(self) -> bool | None:
+    def test_func(self):
         kanban = get_object_or_404(Kanban, pk=self.kwargs.get("pk"))
         return kanban.owner == self.request.user
 
@@ -165,7 +165,7 @@ class TaskDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.DeleteView
     def handle_no_permission(self):
         return render(self.request, "kanban/403.html")
 
-    def test_func(self) -> bool | None:
+    def test_func(self):
         task = self.get_object()
         return task.kanban.owner == self.request.user
 

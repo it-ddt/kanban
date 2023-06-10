@@ -36,7 +36,7 @@
 
             <div class="logo-container">
                 <a class="logo-item" href="{% url 'kanban:index' %}">
-                    <span class="logo-text">Кабанка</span>
+                    <span class="logo-text">Канбанка</span>
                 </a>
             </div>
 
@@ -60,8 +60,8 @@
                 </ul>
             </div>
         </header>
-
-        <main class="main-container">
+        
+        <main class="main-container" style="background-image: url('{% static "img/bg.jpg" %}');">
             {% block content %}{% endblock %}
         </main>
 
