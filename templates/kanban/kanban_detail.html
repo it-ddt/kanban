@@ -27,6 +27,7 @@
                 </li>
             {% empty %}
                 <li>нет новых задач</li>
+                <a class="task-controls-link" href="{% url 'kanban:task_create' kanban.id %}">добавить задачу</a>
             {% endfor %}
             </ol>
         </div>
