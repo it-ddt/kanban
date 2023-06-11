@@ -332,4 +332,6 @@ h3 {
 .youtube-video {
     aspect-ratio: 16 / 9;
     width: 100%;
+    background-position: center;
+    background-size: contain;
 }
