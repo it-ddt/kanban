@@ -171,6 +171,7 @@ h3 {
 
 .tasks-item {
     padding: 15px;
+    border-top: 3px dashed hsla(9, 62%, 36%, 0.8);
 }
 
 .tasks-category-title {

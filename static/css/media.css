@@ -34,9 +34,14 @@
     }
 
     .task-controls {
-        flex-direction: column;
         margin-bottom: 10px;
+        justify-content: flex-start;
     }
+
+    .task-controls-link {
+        padding: 5px 7px;
+    }
+
 
     .page-controls {
         flex-direction: column;
